@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>First Web Applcation using Ant compiler</title>
+</head>
+<body>
+    <!-- Give Servlet reference to the form as an instances 
+    GET and POST services can be according to the problem statement-->
+    <!-- <form action="/insertIntoMySQL" method="POST"> -->
+    <table border="0">
+	<tr>
+		<td align=center>
+			<img src="tomcat.gif">
+		</td>
+		<td>
+			<h1>Sample Application JSP Page</h1>
+			This is the output of a JSP page that is part of the Hello, World application.
+		</td>
+	</tr>
+   </table>
+
+    <form action="insertIntoMySQL" method="GET">
+	<br>
+        <p>Phone Name:</p> 
+        <!-- Create an element with mandatory name attribute,
+        so that data can be transferred to the servlet using getParameter() 
+	-->
+        <input type="text" name="Name" />
+        <br/>
+	<br>
+        <p>Phone Price:</p> 
+        <input type="text" name="Price" />
+        <br/>
+	<br>
+        <p>Phone Quantity:</p> 
+	<input type="text" name="Quantity" /> 
+        <br/>
+	<br>
+        <p>Phone Description:</p> 
+	<input type="text" name="Description" />
+        <br/>
+        <input type="submit"/>
+    </form>
+</body>
+</html>

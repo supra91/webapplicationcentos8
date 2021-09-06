@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Set the project name, basedir and default target to be executed  -->
+<project name="FirstWebApplication" default="mainTarget" basedir=".">
+	<!-- sets the properties here -->
+	<property name="htmljsp.dir" location="."/>
+	<property name="src.dir" location="src"/>
+	<property name="classes.dir" location="WEB-INF/classes" />
+	<property name="lib.dir" location="WEB-INF/lib/"/>
+	<property name="dist.dir" location="dist"/>
+	<property name="image.dir" location="images"/>
+
+	<!-- Target for deleting the existing directories -->
+
+	<target name="clean">
+		<delete dir="${classes.dir}"/>
+		<delete dir="${lib.dir}"/> 
+		<delete dir="${dist.dir}"/>
+	</target>
+
+	<!-- Target for creating the new directories -->
+
+	<target name="makedir">
+		<mkdir dir="${classes.dir}"/>
+		<mkdir dir="${lib.dir}"/> 
+		<mkdir dir="${dist.dir}"/>
+	</target>
+
+	<!-- set classpath to target jar files -->
+
+	<target name="master-classpath">
+		<path id="classpath">
+			<fileset dir=".">
+				<include name="javax.servlet-api-4.0.1.jar" />
+				<include name="mysql-connector-java-8.0.11.jar" />
+			</fileset>
+		</path>
+	</target>
+
+	<!-- Target for copying external jar files to the final war file in WEB-INF/lib directory in the war file -->
+
+	<target name="copy-dependencies">
+		<copy todir="${lib.dir}">
+			<fileset dir="." includes="*.jar" />
+		</copy>
+	</target>
+	<target name="jsp-html">
+		<copy todir="${htmljsp.dir}">
+			<fileset dir="${htmljsp.dir}" includes="datafromweb.jsp" />
+			<fileset dir="${htmljsp.dir}" includes="datafromweb.html" />
+		</copy>
+	</target>
+
+
+
+	<!-- Target for compiling the java code -->
+
+	<target name="compile" depends="clean, makedir, master-classpath">
+		<javac  destdir="${classes.dir}" >
+			<src path="${src.dir}" />
+			<classpath refid="classpath"/>
+		</javac>
+	</target>
+
+	<!-- Target for compiling the java code -->
+
+	<target name="war" depends="compile, copy-dependencies " description="package, output to jar" >
+		<war destfile="${dist.dir}/firstWebApplication.war" webxml="WEB-INF/web.xml">
+			<classes dir="WEB-INF/classes" excludes="testDemo" />
+			<fileset dir="${dist.dir}"/>
+			<fileset dir="${htmljsp.dir}" includes="*datafromweb.jsp, datafromweb.html" />
+			<fileset dir="${image.dir}" includes="tomcat.gif" />
+			<lib dir="WEB-INF/lib"/>
+       		 	<manifest>
+				<attribute name="CreateWar" value="ant.Create.War" />
+			</manifest>
+		</war>
+	</target>
+
+	<!-- Default target to run all targets-->
+
+	<target name="mainTarget" depends="compile, war">
+		<description> Main Target</description>
+	</target>
+</project>
